@@ -1,28 +1,59 @@
-<!DOCTYPE html>
-<html manifest="cache.manifest" lang="ar" dir="ltr">
+<html>
 <head>
-    <link rel="stylesheet" href="style.css">
-    <meta charset="utf-8">
-    <title>Monika PS4 Auto Host (Multi FW 5.05-14.00) 🐤</title>
-    <style>
-        body { background-color: #ffffff; background-image: url('monika.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; color: #ff66a3; font-family: 'Segoe UI', Tahoma, sans-serif; text-align: center; }
-        .main-title { font-size: 2.5rem; color: #ff3385; text-shadow: 2px 2px 5px rgba(255, 102, 163, 0.4); margin-top: 30px; background: rgba(255, 255, 255, 0.85); display: inline-block; padding: 8px 30px; border-radius: 40px; border: 2px dashed #ff99c2; }
-        #progress { background: rgba(255, 240, 245, 0.95); border: 3px solid #ff66a3; padding: 15px 40px; border-radius: 50px; font-size: 1.5rem; font-weight: bold; color: #d6336c; box-shadow: 0 8px 25px rgba(255, 102, 163, 0.5); margin: 20px auto; width: 60%; }
-        .content { margin-top: 50px; }
-    </style>
-    <script>
+<link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<title>Just Monika - PS4 jailbreak Multi-FW Host 🐤</title>
+<style>
+      body {
+            background-color: #ffffff;
+            background-image: url('monika.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #ff66a3;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            text-align: center;
+      }
+      .main-title {
+            font-size: 2.2rem;
+            color: #ff3385;
+            text-shadow: 2px 2px 5px rgba(255, 102, 163, 0.4);
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.85);
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 40px;
+            border: 2px dashed #ff99c2;
+      }
+      #progress {
+            font-size: 25px;
+            text-align: center;
+            text-shadow: 4px 4px 4px black;
+            color: white;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px;
+            border-radius: 20px;
+            display: inline-block;
+      }
+      .content {
+            margin-top: 30px;
+      }
+</style>
+<script>
       if (window.applicationCache.status === 0) {window.location.replace("cache.html");}
-    </script>
+</script>
 </head>
 <body>
 <br>
 <div class="main-title">Just Monika - PS4 jailbreak Multi-FW Host</div>
-<br>
+<br><br>
 <h1 id="progress">Jailbreaking....</h1><br>
 
 <div id="all" class="content">
  	    <div class="text">
- 	        <br><span style="text-shadow: 2px 2px 3px black;" class="yellow">Designed & Compiled by :</span>&nbsp;&nbsp; <span style="text-shadow: 2px 2px 3px black;" class="hue">Monika & Karo Team</span>
+ 	        <br><span style="text-shadow: 4px 4px 4px black;" class="yellow">Designed, Compiled by :</span>&nbsp;&nbsp; <span style="text-shadow: 4px 4px 4px black;" class="hue">Karo Sharifi</span>
+ 	        <br><br><br><br><span style="text-shadow: 4px 4px 4px black;" class="yellow">Super Special Thanks To :</span>&nbsp;&nbsp; <a style="font-size:25px;text-align:center;text-shadow: 4px 4px 4px black;color:white;">Sleirsgoevy , Al Azif , ChendoChap , SiSTRo ,Abc ,Xalfia, Specter ,Znullptr ... </a>
 	    </div>
 </div>
 
@@ -32,23 +63,32 @@ if (window.applicationCache.status == '0') {
 }
 var outputConsole = document.getElementById("progress");
 window.log = function (msg, color) {
-      if (color === undefined) color = "#d6336c";
-      outputConsole.innerHTML = '<span style="color:' + color + '">' + msg + '</span>';
+      if (color === undefined) color = "#cccccc";
+      outputConsole.innerHTML = '<span style="color:' + color + '">' + msg + '</span><br>';
 };
-window.logger = window.log;
-
+window.logger = function (msg, color) {
+      if (color === undefined) color = "#cccccc";
+      outputConsole.innerHTML = '<span style="color:' + color + '">' + msg + '</span><br>';
+};
 window.addEventListener('error', function (event) {
       var reason = event.error;
       var msg = 'Unhandled error\n';
       if (reason) {
         msg += reason + '\n';
+        if (reason.sourceURL)
+          msg += reason.sourceURL;
+        if (reason.line)
+          msg += ':' + reason.line;
+        if (reason.column)
+          msg += ':' + reason.column;
+        if (reason.stack)
+          msg += '\n' + reason.stack;
       } else {
         msg += 'No error object';
       }
       alert(msg);
       return true;
 });
-
 var uaFull = navigator.userAgent;
 var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
 var isPS4 = match !== null;
@@ -104,7 +144,7 @@ if (!isPS4) {
             document.head.appendChild(script);
         }
         else if (fwNum >= 10.00 && fwNum <= 11.02) {
-            var script = document.createElement('script'); script.src = "exploit10.js"; script.onerror = onScriptError;
+            var script = document.createElement('script');script.src = "exploit10.js";script.onerror = onScriptError;
             script.onload = function () {
                 setTimeout(function () {
                     doJb();
