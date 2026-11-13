@@ -165,8 +165,15 @@
                 // دمج منطق كارو لتحديد الإصدار وتشغيل الثغرة المطلوبة بدقة
                 if (fwNum == 5.05 || fwNum == 5.07) {
                     loadExploitScript("exploit5.js");
-                } else if (fwNum === 6.72) {
-                    loadExploitScript("exploit6.js", function () { jailbreak672(); });
+                    } else if (fwNum === 6.72) {
+        window.LoadedMSG = "GoldHen is loaded by monika, enjoy!";
+        window.PLfile = "payload.bin";
+        loadExploitScript("exploit6.js", function () { 
+            try { jailbreak672(); } catch(e) { window.log("Exploit error", "red"); }
+        });
+    }
+
+} 
                 } else if (fwNum >= 7.00 && fwNum <= 9.60) {
                     loadExploitScript("exploit7_9.js", function () { doJailBreak(); });
                 } else if (fwNum >= 10.00 && fwNum <= 11.02) {
