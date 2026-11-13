@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- قمنا بتغيير اسم ملف الكاش ليطابق ملف كارو cache.manifest -->
 <html manifest="cache.manifest" lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
@@ -160,7 +159,7 @@
             msgsBox.style.borderColor = "#ff99c2";
         }
         
-                setTimeout(() => {
+        setTimeout(() => {
             try {
                 // دمج منطق كارو لتحديد الإصدار وتشغيل الثغرة المطلوبة بدقة
                 if (fwNum == 5.05 || fwNum == 5.07) {
@@ -191,6 +190,7 @@
                 }
             }
         }, 1200);
+    }
 
     // الفحص المزدوج يمنع السكربتات من العمل إذا كان الجولدن يعمل مسبقاً
     function checkGoldHenAndStart() {
@@ -215,6 +215,7 @@
         }, 3000);
 
         window.applicationCache.addEventListener("progress", function(e) {
+            clearTimeout(cacheTimeout);
             if (!isPS4) return;
             var Percent = (Math.round(e.loaded / e.total * 100));
             var msgsBox = document.getElementById('msgs');
