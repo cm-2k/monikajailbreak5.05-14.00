@@ -27,164 +27,46 @@
         <button class="pink-pill-btn" onclick="loadPayload('payloads/enablebrowser.bin', 'Enable Browser')">Enable Browser</button>
         <button class="pink-pill-btn" onclick="loadPayload('payloads/Orbis-Toolbox-900.bin', 'Orbis Toolbox')">Orbis Toolbox</button>
     </div>
-    <div class="credits">Special Thanks to: @lilmonix3 (Monika) | Miftah | @Cm2k | SiSTR0</div>
+
+    <div class="credits">Special Thanks to: @lilmonix3 (Monika) | Miftah | @Cm2k | SiSTR0 | Karo</div>
 
     <script>
+    // 1. المتغيرات الأساسية مثل كارو
     var uaFull = navigator.userAgent;
     var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
     var isPS4 = match !== null;
     var fwVersion = isPS4 ? match[1] : "Unknown";
     var fwNum = parseFloat(fwVersion);
+    var msgsBox = document.getElementById('msgs');
+    var toolsBox = document.getElementById('tools-box');
 
-    window.addEventListener('error', function(e) { e.preventDefault(); return true; });
-    window.addEventListener('unhandledrejection', function(e) { e.preventDefault(); return true; });
-    window.alert = function() {}; // كتم التنبيهات المنبثقة
-
-    function showTools(welcomeMsg) {
-        var msgsBox = document.getElementById('msgs');
-        var toolsBox = document.getElementById('tools-box');
-        if(msgsBox && toolsBox) {
-            msgsBox.innerHTML = welcomeMsg;
+    // 2. دوال الطباعة الأصلية لكارو
+    window.log = function (msg, color) {
+        msgsBox.innerHTML = msg;
+        let currentMsg = String(msg).toLowerCase();
+        // إظهار الأزرار عند النجاح
+        if (currentMsg.includes("goldhen") || currentMsg.includes("loaded") || currentMsg.includes("✔")) {
             msgsBox.style.borderColor = "#00ff88";
             toolsBox.style.display = "flex";
             setTimeout(() => { toolsBox.style.opacity = "1"; }, 100);
         }
-    }
-
-    window.log = (msg, color) => { 
-        var msgsBox = document.getElementById('msgs');
-        if(msgsBox) {
-            let currentMsg = String(msg).toLowerCase();
-            if (currentMsg.includes("goldhen") || currentMsg.includes("done") || currentMsg.includes("succeeded") || currentMsg.includes("success") || currentMsg.includes("loaded")) {
-                sessionStorage.setItem('monika_jb_done', 'true');
-                showTools("GoldHen is loaded by monika, enjoy!");
-            } else if (currentMsg.includes("memory") || currentMsg.includes("jailbreak")) {
-                // سمحنا بظهور رسالة امتلاء الرام هنا لكي تطمئن أن الثغرة تعمل
-                msgsBox.innerHTML = msg; 
-            }
-        }
     };
     window.logger = window.log;
 
-    function loadExploitScript(src, onLoadCallback) {
-        var script = document.createElement('script');
-        script.src = src;
-        if (onLoadCallback) script.onload = onLoadCallback;
-        document.head.appendChild(script);
+    function onScriptError() {
+        msgsBox.innerHTML = "Content not Found! - Clear Browser Data and Re-Install Cache ...";
+        msgsBox.style.borderColor = "red";
     }
 
-    function startJailbreak() {
-        var msgsBox = document.getElementById('msgs');
-        if(msgsBox) {
-            msgsBox.innerHTML = "Wait until Monika jailbreaks your Ps4 🌸 (FW " + fwVersion + ") and injects GoldHen!";
-            msgsBox.style.borderColor = "#ff99c2";
-        }
-        
-        try {
-            // إطلاق مباشر للثغرة بدون أي تأخير للحفاظ على الذاكرة مثل كارو
-            if (fwNum == 5.05 || fwNum == 5.07) {
-                loadExploitScript("exploit5.js");
-            } else if (fwNum === 6.72) {
-                LoadedMSG = "GoldHen is loaded by monika, enjoy!";
-                PLfile = "payload.bin";
-                loadExploitScript("exploit6.js", function () { 
-                    try { jailbreak672(); } catch(e) {}
-                });
-            } else if (fwNum >= 7.00 && fwNum <= 9.60) {
-                loadExploitScript("exploit7_9.js", function () { doJailBreak(); });
-            } else if (fwNum >= 10.00 && fwNum <= 11.02) {
-                loadExploitScript("exploit10.js", function () { setTimeout(function () { doJb(); }, 1000); });
-            } else if (fwNum >= 11.50 && fwNum <= 12.02) {
-                loadExploitScript("1150_1202.js");
-            } else if (fwNum >= 12.50 && fwNum <= 13.00) {
-                loadExploitScript("1250_13.js");
-            } else if (fwNum >= 13.02 && fwNum <= 13.52) {
-                loadExploitScript("1302_1352.js");
-            } else if (fwNum === 14.00) {
-                loadExploitScript("1400.js");
-            }
-        } catch (error) {}
-    }
-
-    function checkGoldHenAndStart() {
-        if (sessionStorage.getItem('monika_jb_done') === 'true') {
-            showTools("Welcome back! GoldHen is already loaded, silly~");
-            return;
-        }
-        // تم إلغاء فحص الشبكة (fetch) هنا لأن استهلاكه للذاكرة هو ما يجمد ثغرة 6.72
-        startJailbreak();
-    }
-
-    if (window.applicationCache) {
-        var cacheTimeout = setTimeout(function() { checkGoldHenAndStart(); }, 3000);
-        window.applicationCache.addEventListener("progress", function(e) {
-            clearTimeout(cacheTimeout);
-            if (!isPS4) return;
-            var Percent = (Math.round(e.loaded / e.total * 100));
-            var msgsBox = document.getElementById('msgs');
-            if(msgsBox) msgsBox.innerHTML = "Installing Offline Cache: " + Percent + "%";
-        }, false);
-        window.applicationCache.oncached = function(e){ 
-            clearTimeout(cacheTimeout);
-            if (!isPS4) return;
-            var msgsBox = document.getElementById('msgs');
-            if(msgsBox) {
-                msgsBox.innerHTML = "Cache Installed Successfully ✔";
-                msgsBox.style.borderColor = "#00ff88";
-                setTimeout(checkGoldHenAndStart, 1000);
-            }
-        };
-        window.applicationCache.onupdateready = function(e){ 
-            clearTimeout(cacheTimeout);
-            window.applicationCache.swapCache();
-            location.reload();
-        };
-        window.applicationCache.onerror = function(e){ 
-            clearTimeout(cacheTimeout);
-            if (!isPS4) return;
-            checkGoldHenAndStart();
-        };
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        var msgsBox = document.getElementById('msgs');
+    // 3. المحرك الأساسي (نسخة طبق الأصل من كارو بدون أي إضافات)
+    function runExploit() {
         if (!isPS4) {
             msgsBox.innerHTML = "Only for PS4 with Firmware 5.05 and 6.72 and 7.00 to 14.00";
-            msgsBox.style.borderColor = "red";
             return;
         }
-        if (window.applicationCache && window.applicationCache.status === window.applicationCache.IDLE) {
-            checkGoldHenAndStart();
-        } else if (!window.applicationCache) {
-            checkGoldHenAndStart();
-        }
-    });
 
-    function loadPayload(payloadPath, toolName) {
-        const msgsBox = document.getElementById('msgs');
-        msgsBox.innerText = toolName + " is loading by monika...";
+        msgsBox.innerHTML = "Wait until Monika jailbreaks your Ps4 🌸 (FW " + fwVersion + ")!";
         msgsBox.style.borderColor = "#ff99c2";
-        var getReq = new XMLHttpRequest();
-        getReq.open('GET', payloadPath, true);
-        getReq.responseType = 'arraybuffer';
-        getReq.onload = function() {
-            if (getReq.status === 200) {
-                var payloadData = getReq.response;
-                var sendReq = new XMLHttpRequest();
-                sendReq.open('POST', 'http://127.0.0.1:9090/', true);
-                sendReq.onload = function() {
-                    msgsBox.innerText = toolName + " is loaded by monika, enjoy !";
-                    msgsBox.style.borderColor = "#00ff88";
-                };
-                sendReq.onerror = function() {
-                    msgsBox.innerText = toolName + " failed! (Please enable BinLoader)";
-                    msgsBox.style.borderColor = "red";
-                };
-                sendReq.send(payloadData);
-            }
-        };
-        getReq.send();
-    }
-    </script>
-</body>
-</html>
+
+        if (fwNum == 5.05 || fwNum == 5.07) {
+            var script = document.createElement('script'); script.src = "exploit5.js"; script.
