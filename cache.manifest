@@ -1,0 +1,29 @@
+CACHE MANIFEST 
+
+CACHE: 
+1150_1202.js
+1250_13.js
+1302_1352.js
+1400.js
+exploit10.js
+exploit7_9.js
+exploit6.js
+exploit5.js
+index.html
+payload.bin
+rpc_worker.js
+worker.js
+monika.jpg
+payloads/disableupdates.bin
+payloads/enableupdates.bin
+payloads/ftp.bin
+payloads/app2usb.bin
+payloads/enablebrowser.bin
+payloads/Orbis-Toolbox-900.bin
+
+NETWORK: 
+* 
+SETTINGS:  
+prefer-online:  
+
+# 2026-11-13 11:35:00
