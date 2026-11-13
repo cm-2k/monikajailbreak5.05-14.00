@@ -4,104 +4,20 @@
     <meta charset="UTF-8">
     <title>Monika PS4 Auto Host (Multi FW 5.05-14.00) 🐤</title>
     <style>
-        body {
-            background-color: #ffffff;
-            background-image: url('monika.jpg'); 
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            color: #ff66a3;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding-top: 30px;
-            box-sizing: border-box;
-        }
-
-        .main-title {
-            font-size: 2.5rem;
-            color: #ff3385;
-            text-shadow: 2px 2px 5px rgba(255, 102, 163, 0.4);
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 8px 30px;
-            border-radius: 40px;
-            border: 2px dashed #ff99c2;
-        }
-
-        #msgs {
-            background: rgba(255, 240, 245, 0.95);
-            border: 3px solid #ff66a3;
-            padding: 15px 40px;
-            border-radius: 50px; 
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #d6336c;
-            box-shadow: 0 8px 25px rgba(255, 102, 163, 0.5);
-            margin: 15px 0;
-            transition: all 0.3s ease;
-            min-width: 55%;
-        }
-        
-        .button-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 28px 35px;
-            max-width: 920px;
-            padding: 20px;
-            margin-top: 110px;
-            margin-bottom: 20px;
-        }
-
-        .pink-pill-btn {
-            background: linear-gradient(135deg, #ff66a3, #ff3385);
-            color: white;
-            border: 3px solid #ff99c2;
-            padding: 18px 32px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            border-radius: 50px; 
-            cursor: pointer;
-            transition: all 0.25s ease;
-            box-shadow: 0 6px 18px rgba(255, 102, 163, 0.5);
-            min-width: 250px;
-        }
-
-        .pink-pill-btn:hover {
-            background: linear-gradient(135deg, #ff99c2, #ff66a3);
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(255, 102, 163, 0.9);
-        }
-
-        .pink-pill-btn:active {
-            transform: translateY(1px);
-        }
-
-        .credits {
-            margin-top: auto;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-            color: #cc0052;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 12px 30px;
-            border-radius: 30px;
-            border: 1px solid #ffb3d1;
-        }
+        body { background-color: #ffffff; background-image: url('monika.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; color: #ff66a3; font-family: 'Segoe UI', Tahoma, sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; min-height: 100vh; margin: 0; padding-top: 30px; box-sizing: border-box; }
+        .main-title { font-size: 2.5rem; color: #ff3385; text-shadow: 2px 2px 5px rgba(255, 102, 163, 0.4); margin-bottom: 15px; background: rgba(255, 255, 255, 0.85); padding: 8px 30px; border-radius: 40px; border: 2px dashed #ff99c2; }
+        #msgs { background: rgba(255, 240, 245, 0.95); border: 3px solid #ff66a3; padding: 15px 40px; border-radius: 50px; font-size: 1.5rem; font-weight: bold; color: #d6336c; box-shadow: 0 8px 25px rgba(255, 102, 163, 0.5); margin: 15px 0; transition: all 0.3s ease; min-width: 55%; }
+        .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 35px; max-width: 920px; padding: 20px; margin-top: 110px; margin-bottom: 20px; }
+        .pink-pill-btn { background: linear-gradient(135deg, #ff66a3, #ff3385); color: white; border: 3px solid #ff99c2; padding: 18px 32px; font-size: 1.3rem; font-weight: bold; border-radius: 50px; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 6px 18px rgba(255, 102, 163, 0.5); min-width: 250px; }
+        .pink-pill-btn:hover { background: linear-gradient(135deg, #ff99c2, #ff66a3); transform: translateY(-4px) scale(1.05); box-shadow: 0 10px 25px rgba(255, 102, 163, 0.9); }
+        .pink-pill-btn:active { transform: translateY(1px); }
+        .credits { margin-top: auto; margin-bottom: 20px; font-size: 1.1rem; color: #cc0052; background: rgba(255, 255, 255, 0.85); padding: 12px 30px; border-radius: 30px; border: 1px solid #ffb3d1; }
     </style>
 </head>
 <body>
     
     <div class="main-title">Just Monika - PS4 jailbreak Multi-FW Host</div>
     <div id="msgs">Checking Cache Status...</div>
-
-    <div id="progress" style="display: none;"></div>
 
     <div class="button-container" id="tools-box" style="display: none; opacity: 0; transition: opacity 0.8s ease;">
         <button class="pink-pill-btn" onclick="loadPayload('payloads/disableupdates.bin', 'Disable Updates')">Disable Updates</button>
@@ -111,10 +27,7 @@
         <button class="pink-pill-btn" onclick="loadPayload('payloads/enablebrowser.bin', 'Enable Browser')">Enable Browser</button>
         <button class="pink-pill-btn" onclick="loadPayload('payloads/Orbis-Toolbox-900.bin', 'Orbis Toolbox')">Orbis Toolbox</button>
     </div>
-
-    <div class="credits">
-        Special Thanks to: @lilmonix3 (Monika) | Miftah | @Cm2k | SiSTR0
-    </div>
+    <div class="credits">Special Thanks to: @lilmonix3 (Monika) | Miftah | @Cm2k | SiSTR0</div>
 
     <script>
     var uaFull = navigator.userAgent;
@@ -125,14 +38,11 @@
 
     window.addEventListener('error', function(e) { e.preventDefault(); return true; });
     window.addEventListener('unhandledrejection', function(e) { e.preventDefault(); return true; });
-
-    // إسكات دالة التنبيه التي تسبب التجميد من ملفات كارو
-    window.alert = function() { /* صمت تام */ };
+    window.alert = function() {}; // كتم التنبيهات المنبثقة
 
     function showTools(welcomeMsg) {
         var msgsBox = document.getElementById('msgs');
         var toolsBox = document.getElementById('tools-box');
-        
         if(msgsBox && toolsBox) {
             msgsBox.innerHTML = welcomeMsg;
             msgsBox.style.borderColor = "#00ff88";
@@ -148,6 +58,9 @@
             if (currentMsg.includes("goldhen") || currentMsg.includes("done") || currentMsg.includes("succeeded") || currentMsg.includes("success") || currentMsg.includes("loaded")) {
                 sessionStorage.setItem('monika_jb_done', 'true');
                 showTools("GoldHen is loaded by monika, enjoy!");
+            } else if (currentMsg.includes("memory") || currentMsg.includes("jailbreak")) {
+                // سمحنا بظهور رسالة امتلاء الرام هنا لكي تطمئن أن الثغرة تعمل
+                msgsBox.innerHTML = msg; 
             }
         }
     };
@@ -156,87 +69,54 @@
     function loadExploitScript(src, onLoadCallback) {
         var script = document.createElement('script');
         script.src = src;
-        if (onLoadCallback) {
-            script.onload = onLoadCallback;
-        }
-        script.onerror = function() {
-            var msgsBox = document.getElementById('msgs');
-            if(msgsBox) {
-                msgsBox.innerHTML = "Content not Found! - Clear Browser Data and Re-Install Cache ...";
-                msgsBox.style.borderColor = "red";
-            }
-        };
+        if (onLoadCallback) script.onload = onLoadCallback;
         document.head.appendChild(script);
     }
 
     function startJailbreak() {
-        sessionStorage.removeItem('monika_jb_done');
         var msgsBox = document.getElementById('msgs');
-        var toolsBox = document.getElementById('tools-box');
-        if(toolsBox) toolsBox.style.display = "none";
-        
         if(msgsBox) {
-            msgsBox.innerHTML = "Wait until Monika jailbreaks your Ps4 (FW " + fwVersion + ") and injects GoldHen!";
+            msgsBox.innerHTML = "Wait until Monika jailbreaks your Ps4 🌸 (FW " + fwVersion + ") and injects GoldHen!";
             msgsBox.style.borderColor = "#ff99c2";
         }
         
-        setTimeout(() => {
-            try {
-                if (fwNum == 5.05 || fwNum == 5.07) {
-                    loadExploitScript("exploit5.js");
-                } else if (fwNum === 6.72) {
-                    window.LoadedMSG = "GoldHen is loaded by monika, enjoy!";
-                    window.PLfile = "payload.bin";
-                    loadExploitScript("exploit6.js", function () { 
-                        try { 
-                            jailbreak672(); 
-                        } catch(e) { 
-                            // تعديل لطباعة الخطأ الفعلي لتسهيل التشخيص
-                            window.log("Exploit error: " + e.message, "red"); 
-                        }
-                    });
-                } else if (fwNum >= 7.00 && fwNum <= 9.60) {
-                    loadExploitScript("exploit7_9.js", function () { doJailBreak(); });
-                } else if (fwNum >= 10.00 && fwNum <= 11.02) {
-                    loadExploitScript("exploit10.js", function () { setTimeout(function () { doJb(); }, 1000); });
-                } else if (fwNum >= 11.50 && fwNum <= 12.02) {
-                    loadExploitScript("1150_1202.js");
-                } else if (fwNum >= 12.50 && fwNum <= 13.00) {
-                    loadExploitScript("1250_13.js");
-                } else if (fwNum >= 13.02 && fwNum <= 13.52) {
-                    loadExploitScript("1302_1352.js");
-                } else if (fwNum === 14.00) {
-                    loadExploitScript("1400.js");
-                }
-            } catch (error) {
-                if(msgsBox) {
-                    msgsBox.innerHTML = "Oops! Monika messed up the kernel code... Please restart your PS4.";
-                    msgsBox.style.borderColor = "red";
-                }
+        try {
+            // إطلاق مباشر للثغرة بدون أي تأخير للحفاظ على الذاكرة مثل كارو
+            if (fwNum == 5.05 || fwNum == 5.07) {
+                loadExploitScript("exploit5.js");
+            } else if (fwNum === 6.72) {
+                LoadedMSG = "GoldHen is loaded by monika, enjoy!";
+                PLfile = "payload.bin";
+                loadExploitScript("exploit6.js", function () { 
+                    try { jailbreak672(); } catch(e) {}
+                });
+            } else if (fwNum >= 7.00 && fwNum <= 9.60) {
+                loadExploitScript("exploit7_9.js", function () { doJailBreak(); });
+            } else if (fwNum >= 10.00 && fwNum <= 11.02) {
+                loadExploitScript("exploit10.js", function () { setTimeout(function () { doJb(); }, 1000); });
+            } else if (fwNum >= 11.50 && fwNum <= 12.02) {
+                loadExploitScript("1150_1202.js");
+            } else if (fwNum >= 12.50 && fwNum <= 13.00) {
+                loadExploitScript("1250_13.js");
+            } else if (fwNum >= 13.02 && fwNum <= 13.52) {
+                loadExploitScript("1302_1352.js");
+            } else if (fwNum === 14.00) {
+                loadExploitScript("1400.js");
             }
-        }, 1200);
+        } catch (error) {}
     }
 
     function checkGoldHenAndStart() {
         if (sessionStorage.getItem('monika_jb_done') === 'true') {
-            showTools("Welcome back! GoldHen is already loaded, silly~ Need a payload, or did you come to spend time with me?");
+            showTools("Welcome back! GoldHen is already loaded, silly~");
             return;
         }
-        fetch("http://127.0.0.1:9090/", { mode: 'no-cors' })
-            .then(() => {
-                sessionStorage.setItem('monika_jb_done', 'true');
-                showTools("Welcome back! GoldHen is already loaded, silly~ Need a payload, or did you come to spend time with me?");
-            })
-            .catch(() => {
-                startJailbreak();
-            });
+        // تم إلغاء فحص الشبكة (fetch) هنا لأن استهلاكه للذاكرة هو ما يجمد ثغرة 6.72
+        startJailbreak();
     }
 
     if (window.applicationCache) {
-        var cacheTimeout = setTimeout(function() {
-            checkGoldHenAndStart();
-        }, 3000);
-
+        var cacheTimeout = setTimeout(function() { checkGoldHenAndStart(); }, 3000);
         window.applicationCache.addEventListener("progress", function(e) {
             clearTimeout(cacheTimeout);
             if (!isPS4) return;
@@ -244,7 +124,6 @@
             var msgsBox = document.getElementById('msgs');
             if(msgsBox) msgsBox.innerHTML = "Installing Offline Cache: " + Percent + "%";
         }, false);
-
         window.applicationCache.oncached = function(e){ 
             clearTimeout(cacheTimeout);
             if (!isPS4) return;
@@ -252,17 +131,14 @@
             if(msgsBox) {
                 msgsBox.innerHTML = "Cache Installed Successfully ✔";
                 msgsBox.style.borderColor = "#00ff88";
-                setTimeout(checkGoldHenAndStart, 1500);
+                setTimeout(checkGoldHenAndStart, 1000);
             }
         };
-
         window.applicationCache.onupdateready = function(e){ 
             clearTimeout(cacheTimeout);
-            if (!isPS4) return;
             window.applicationCache.swapCache();
             location.reload();
         };
-
         window.applicationCache.onerror = function(e){ 
             clearTimeout(cacheTimeout);
             if (!isPS4) return;
@@ -288,39 +164,24 @@
         const msgsBox = document.getElementById('msgs');
         msgsBox.innerText = toolName + " is loading by monika...";
         msgsBox.style.borderColor = "#ff99c2";
-        
         var getReq = new XMLHttpRequest();
         getReq.open('GET', payloadPath, true);
         getReq.responseType = 'arraybuffer';
-        
         getReq.onload = function() {
             if (getReq.status === 200) {
                 var payloadData = getReq.response;
                 var sendReq = new XMLHttpRequest();
                 sendReq.open('POST', 'http://127.0.0.1:9090/', true);
                 sendReq.onload = function() {
-                    if (toolName === "Disable Updates") {
-                        msgsBox.innerText = toolName + " is loaded by monika, enjoy using internet safely !";
-                    } else if (toolName === "Enable Updates") {
-                        msgsBox.innerText = toolName + " is loaded by monika";
-                    } else {
-                        msgsBox.innerText = toolName + " is loaded by monika, enjoy !";
-                    }
+                    msgsBox.innerText = toolName + " is loaded by monika, enjoy !";
                     msgsBox.style.borderColor = "#00ff88";
                 };
                 sendReq.onerror = function() {
-                    msgsBox.innerText = toolName + " failed! (Please enable BinLoader in GoldHEN settings)";
+                    msgsBox.innerText = toolName + " failed! (Please enable BinLoader)";
                     msgsBox.style.borderColor = "red";
                 };
                 sendReq.send(payloadData);
-            } else {
-                msgsBox.innerText = "Error: Payload file not found!";
-                msgsBox.style.borderColor = "red";
             }
-        };
-        getReq.onerror = function() {
-            msgsBox.innerText = "Error fetching the payload!";
-            msgsBox.style.borderColor = "red";
         };
         getReq.send();
     }
