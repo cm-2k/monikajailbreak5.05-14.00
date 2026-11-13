@@ -1,208 +1,142 @@
 <!DOCTYPE html>
 <html manifest="cache.manifest" lang="ar" dir="ltr">
 <head>
-    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
     <title>Monika PS4 Auto Host (Multi FW 5.05-14.00) 🐤</title>
     <style>
-        body { background-color: #ffffff; background-image: url('monika.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; color: #ff66a3; font-family: 'Segoe UI', Tahoma, sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; min-height: 100vh; margin: 0; padding-top: 30px; box-sizing: border-box; }
-        .main-title { font-size: 2.5rem; color: #ff3385; text-shadow: 2px 2px 5px rgba(255, 102, 163, 0.4); margin-bottom: 15px; background: rgba(255, 255, 255, 0.85); padding: 8px 30px; border-radius: 40px; border: 2px dashed #ff99c2; }
-        #msgs { background: rgba(255, 240, 245, 0.95); border: 3px solid #ff66a3; padding: 15px 40px; border-radius: 50px; font-size: 1.5rem; font-weight: bold; color: #d6336c; box-shadow: 0 8px 25px rgba(255, 102, 163, 0.5); margin: 15px 0; transition: all 0.3s ease; min-width: 55%; }
-        .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 35px; max-width: 920px; padding: 20px; margin-top: 110px; margin-bottom: 20px; }
-        .pink-pill-btn { background: linear-gradient(135deg, #ff66a3, #ff3385); color: white; border: 3px solid #ff99c2; padding: 18px 32px; font-size: 1.3rem; font-weight: bold; border-radius: 50px; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 6px 18px rgba(255, 102, 163, 0.5); min-width: 250px; }
-        .pink-pill-btn:hover { background: linear-gradient(135deg, #ff99c2, #ff66a3); transform: translateY(-4px) scale(1.05); box-shadow: 0 10px 25px rgba(255, 102, 163, 0.9); }
-        .pink-pill-btn:active { transform: translateY(1px); }
-        .credits { margin-top: auto; margin-bottom: 20px; font-size: 1.1rem; color: #cc0052; background: rgba(255, 255, 255, 0.85); padding: 12px 30px; border-radius: 30px; border: 1px solid #ffb3d1; }
+        body { background-color: #ffffff; background-image: url('monika.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; color: #ff66a3; font-family: 'Segoe UI', Tahoma, sans-serif; text-align: center; }
+        .main-title { font-size: 2.5rem; color: #ff3385; text-shadow: 2px 2px 5px rgba(255, 102, 163, 0.4); margin-top: 30px; background: rgba(255, 255, 255, 0.85); display: inline-block; padding: 8px 30px; border-radius: 40px; border: 2px dashed #ff99c2; }
+        #progress { background: rgba(255, 240, 245, 0.95); border: 3px solid #ff66a3; padding: 15px 40px; border-radius: 50px; font-size: 1.5rem; font-weight: bold; color: #d6336c; box-shadow: 0 8px 25px rgba(255, 102, 163, 0.5); margin: 20px auto; width: 60%; }
+        .content { margin-top: 50px; }
     </style>
+    <script>
+      if (window.applicationCache.status === 0) {window.location.replace("cache.html");}
+    </script>
 </head>
 <body>
-    
-    <div class="main-title">Just Monika - PS4 jailbreak Multi-FW Host</div>
-    <div id="msgs">Checking Cache Status...</div>
+<br>
+<div class="main-title">Just Monika - PS4 jailbreak Multi-FW Host</div>
+<br>
+<h1 id="progress">Jailbreaking....</h1><br>
 
-    <div class="button-container" id="tools-box" style="display: none; opacity: 0; transition: opacity 0.8s ease;">
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/disableupdates.bin', 'Disable Updates')">Disable Updates</button>
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/enableupdates.bin', 'Enable Updates')">Enable Updates</button>
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/ftp.bin', 'FTP Server')">FTP Server</button>
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/app2usb.bin', 'App2USB')">App2USB</button>
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/enablebrowser.bin', 'Enable Browser')">Enable Browser</button>
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/Orbis-Toolbox-900.bin', 'Orbis Toolbox')">Orbis Toolbox</button>
-    </div>
+<div id="all" class="content">
+ 	    <div class="text">
+ 	        <br><span style="text-shadow: 2px 2px 3px black;" class="yellow">Designed & Compiled by :</span>&nbsp;&nbsp; <span style="text-shadow: 2px 2px 3px black;" class="hue">Monika & Karo Team</span>
+	    </div>
+</div>
 
-    <div class="credits">Special Thanks to: @lilmonix3 (Monika) | Miftah | @Cm2k | SiSTR0 | Karo</div>
+<script>
+if (window.applicationCache.status == '0') {
+            window.location.replace("cache.html");
+}
+var outputConsole = document.getElementById("progress");
+window.log = function (msg, color) {
+      if (color === undefined) color = "#d6336c";
+      outputConsole.innerHTML = '<span style="color:' + color + '">' + msg + '</span>';
+};
+window.logger = window.log;
 
-    <script>
-    var uaFull = navigator.userAgent;
-    var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
-    var isPS4 = match !== null;
-    var fwVersion = isPS4 ? match[1] : "Unknown";
-    var fwNum = parseFloat(fwVersion);
+window.addEventListener('error', function (event) {
+      var reason = event.error;
+      var msg = 'Unhandled error\n';
+      if (reason) {
+        msg += reason + '\n';
+      } else {
+        msg += 'No error object';
+      }
+      alert(msg);
+      return true;
+});
 
-    var msgsBox = document.getElementById('msgs');
-    var toolsBox = document.getElementById('tools-box');
-    var outputConsole = document.getElementById("msgs"); // ربط مخرجات كارو بالمربع الوردي
+var uaFull = navigator.userAgent;
+var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
+var isPS4 = match !== null;
+var fwVersion = isPS4 ? match[1] : "Unknown";
+var fwNum = parseFloat(fwVersion);
 
-    window.log = function (msg, color) {
-        outputConsole.innerHTML = msg;
-        let currentMsg = String(msg).toLowerCase();
-        if (currentMsg.includes("goldhen") || currentMsg.includes("loaded") || currentMsg.includes("✔")) {
-            sessionStorage.setItem('monika_jb_done', 'true');
-            outputConsole.style.borderColor = "#00ff88";
-            toolsBox.style.display = "flex";
-            setTimeout(() => { toolsBox.style.opacity = "1"; }, 100);
-        }
-    };
-    window.logger = window.log;
+function onScriptError() {
+    progress.innerHTML = "Content not Found! - Clear Browser Data and Re-Install Cache ...";
+}
 
-    function onScriptError() {
-        msgsBox.innerHTML = "Content not Found! - Clear Browser Data and Re-Install Cache ...";
-        msgsBox.style.borderColor = "red";
-    }
-
-    function startJailbreak() {
-        sessionStorage.removeItem('monika_jb_done');
-        toolsBox.style.display = "none";
-        
-        msgsBox.innerHTML = "Wait until Monika jailbreaks your Ps4 🌸 (FW " + fwVersion + ")!";
-        msgsBox.style.borderColor = "#ff99c2";
-        
-        setTimeout(() => {
-            if (fwNum == 5.05 || fwNum == 5.07) {
-                var script = document.createElement('script'); script.src = "exploit5.js"; script.onerror = onScriptError; document.head.appendChild(script);
-            } else if (fwNum === 6.72) {
-                // تعريف متغيرات كارو بالضبط كما هي
-                LoadedMSG = "GoldHen is loaded by monika, enjoy!";
-                PLfile = "payload.bin";
-                
-                var script = document.createElement('script');
-                script.src = "exploit6.js";
-                script.onload = function () {
-                    try { 
-                        jailbreak672(); 
-                    } catch (error) { 
-                        window.log("Exploit error: " + error, "red"); 
-                    }
-                };
-                script.onerror = onScriptError;
-                document.head.appendChild(script);
-            } else if (fwNum >= 7.00 && fwNum <= 9.60) {
-                var script = document.createElement('script'); script.src = "exploit7_9.js"; script.onload = function () { try { doJailBreak(); } catch (error) { window.log("Exploit error: " + error, "red"); } }; script.onerror = onScriptError; document.head.appendChild(script);
-            } else if (fwNum >= 10.00 && fwNum <= 11.02) {
-                var script = document.createElement('script'); script.src = "exploit10.js"; script.onerror = onScriptError; script.onload = function () { setTimeout(function () { doJb(); }, 1000); }; document.head.appendChild(script);
-            } else if (fwNum >= 11.50 && fwNum <= 12.02) {
-                var script = document.createElement('script'); script.src = "1150_1202.js"; script.onerror = onScriptError; document.head.appendChild(script);
-            } else if (fwNum >= 12.50 && fwNum <= 13.00) {
-                var script = document.createElement('script'); script.src = "1250_13.js"; script.onerror = onScriptError; document.head.appendChild(script);
-            } else if (fwNum >= 13.02 && fwNum <= 13.52) {
-                var script = document.createElement('script'); script.src = "1302_1352.js"; script.onerror = onScriptError; document.head.appendChild(script);
-            } else if (fwNum === 14.00) {
-                var script = document.createElement('script'); script.src = "1400.js"; script.onerror = onScriptError; document.head.appendChild(script);
-            }
-        }, 500); // تأخير بسيط لضمان تهيئة الذاكرة
-    }
-
-    // الفحص المزدوج العبقري الخاص بك لحماية الجهاز من الكيرنل بانيك
-    function checkGoldHenAndStart() {
-        if (sessionStorage.getItem('monika_jb_done') === 'true') {
-            msgsBox.innerHTML = "Welcome back! GoldHen is already loaded, silly~";
-            msgsBox.style.borderColor = "#00ff88";
-            toolsBox.style.display = "flex";
-            setTimeout(() => { toolsBox.style.opacity = "1"; }, 100);
-            return;
-        }
-
-        fetch("http://127.0.0.1:9090/", { mode: 'no-cors' })
-            .then(() => {
-                sessionStorage.setItem('monika_jb_done', 'true');
-                msgsBox.innerHTML = "Welcome back! GoldHen is already loaded, silly~";
-                msgsBox.style.borderColor = "#00ff88";
-                toolsBox.style.display = "flex";
-                setTimeout(() => { toolsBox.style.opacity = "1"; }, 100);
-            })
-            .catch(() => {
-                startJailbreak();
-            });
-    }
-
-    if (window.applicationCache) {
-        var cacheTimeout = setTimeout(function() {
-            checkGoldHenAndStart();
-        }, 3000);
-
-        window.applicationCache.addEventListener("progress", function(e) {
-            clearTimeout(cacheTimeout);
-            if (!isPS4) return;
-            var Percent = (Math.round(e.loaded / e.total * 100));
-            msgsBox.innerHTML = "Installing Offline Cache: " + Percent + "%";
-        }, false);
-
-        window.applicationCache.oncached = function(e){ 
-            clearTimeout(cacheTimeout);
-            if (!isPS4) return;
-            msgsBox.innerHTML = "Cache Installed Successfully ✔";
-            msgsBox.style.borderColor = "#00ff88";
-            setTimeout(checkGoldHenAndStart, 1500);
-        };
-
-        window.applicationCache.onupdateready = function(e){ 
-            clearTimeout(cacheTimeout);
-            if (!isPS4) return;
-            window.applicationCache.swapCache();
-            location.reload();
-        };
-
-        window.applicationCache.onerror = function(e){ 
-            clearTimeout(cacheTimeout);
-            if (!isPS4) return;
-            checkGoldHenAndStart();
-        };
-    }
-
+if (!isPS4) {
     document.addEventListener("DOMContentLoaded", () => {
-        if (!isPS4) {
-            msgsBox.innerHTML = "Only for PS4 with Firmware 5.05 and 6.72 and 7.00 to 14.00";
-            msgsBox.style.borderColor = "red";
-            return;
-        }
-        if (window.applicationCache && window.applicationCache.status === window.applicationCache.IDLE) {
-            checkGoldHenAndStart();
-        } else if (!window.applicationCache) {
-            checkGoldHenAndStart();
-        }
+        progress.innerHTML = "Only for PS4 with Firmware 5.05 and 6.72 and 7.00 to 14.00";
     });
-
-    function loadPayload(payloadPath, toolName) {
-        msgsBox.innerText = toolName + " is loading by monika...";
-        msgsBox.style.borderColor = "#ff99c2";
-        
-        var getReq = new XMLHttpRequest();
-        getReq.open('GET', payloadPath, true);
-        getReq.responseType = 'arraybuffer';
-        
-        getReq.onload = function() {
-            if (getReq.status === 200) {
-                var payloadData = getReq.response;
-                var sendReq = new XMLHttpRequest();
-                sendReq.open('POST', 'http://127.0.0.1:9090/', true);
-                sendReq.onload = function() {
-                    msgsBox.innerText = toolName + " is loaded by monika, enjoy !";
-                    msgsBox.style.borderColor = "#00ff88";
-                };
-                sendReq.onerror = function() {
-                    msgsBox.innerText = toolName + " failed! (Please enable BinLoader)";
-                    msgsBox.style.borderColor = "red";
-                };
-                sendReq.send(payloadData);
-            } else {
-                msgsBox.innerText = "Error: Payload file not found!";
-                msgsBox.style.borderColor = "red";
-            }
-        };
-        getReq.onerror = function() {
-            msgsBox.innerText = "Error fetching the payload!";
-            msgsBox.style.borderColor = "red";
-        };
-        getReq.send();
+} else {
+        if (fwNum == 5.05 || fwNum == 5.07) {
+            var script = document.createElement('script');
+            script.src = "exploit5.js";
+            script.onerror = onScriptError;
+            document.head.appendChild(script);
+        }
+		else if (fwNum === 6.72) {
+		progress.innerHTML = "Loading GoldHEN v2.4b18.13 ...";
+		LoadedMSG = "GoldHEN v2.4b18.13 Loaded ✔";
+		PLfile = "payload.bin";
+	
+		var script = document.createElement('script');
+		script.src = "exploit6.js";
+	
+		script.onload = function () {
+			try {
+				jailbreak672();
+			} catch (error) {
+				window.log("Exploit error: " + error, "red");
+			}
+		};
+	
+		script.onerror = onScriptError;
+		document.head.appendChild(script);
+		}
+        else if (fwNum >= 7.00 && fwNum <= 9.60) {
+            progress.innerHTML = "Loading GoldHEN v2.4b18.13 ...";
+            var script = document.createElement('script');
+            script.src = "exploit7_9.js";
+            script.onload = function () {
+			try {
+				doJailBreak();
+			} catch (error) {
+				window.log("Exploit error: " + error, "red");
+			}
+		};
+            script.onerror = onScriptError;
+            document.head.appendChild(script);
+        }
+        else if (fwNum >= 10.00 && fwNum <= 11.02) {
+            var script = document.createElement('script'); script.src = "exploit10.js"; script.onerror = onScriptError;
+            script.onload = function () {
+                setTimeout(function () {
+                    doJb();
+                }, 1000);
+            };
+            document.head.appendChild(script);
+        }
+        else if (fwNum >= 11.50 && fwNum <= 12.02) {
+           var script = document.createElement('script');
+           script.src = "1150_1202.js";
+           script.onerror = onScriptError;
+           document.head.appendChild(script);
+       }
+       else if (fwNum >= 12.50 && fwNum <= 13.00) {
+           var script = document.createElement('script');
+           script.src = "1250_13.js";
+           script.onerror = onScriptError;
+           document.head.appendChild(script);
+       }
+       else if (fwNum >= 13.02 && fwNum <= 13.52) {
+           var script = document.createElement('script');
+           script.src = "1302_1352.js";
+           script.onerror = onScriptError;
+           document.head.appendChild(script);
+       }
+       else if (fwNum === 14.00) {
+           var script = document.createElement('script');
+           script.src = "1400.js";
+           script.onerror = onScriptError;
+           document.head.appendChild(script);
+       }
     }
-    </script>
+</script>
 </body>
 </html>
