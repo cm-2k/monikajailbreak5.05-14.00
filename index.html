@@ -31,22 +31,22 @@
     <div class="credits">Special Thanks to: @lilmonix3 (Monika) | Miftah | @Cm2k | SiSTR0 | Karo</div>
 
     <script>
-    // 1. المتغيرات الأساسية مثل كارو
     var uaFull = navigator.userAgent;
     var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
     var isPS4 = match !== null;
     var fwVersion = isPS4 ? match[1] : "Unknown";
     var fwNum = parseFloat(fwVersion);
+
     var msgsBox = document.getElementById('msgs');
     var toolsBox = document.getElementById('tools-box');
+    var outputConsole = document.getElementById("msgs"); // ربط مخرجات كارو بالمربع الوردي
 
-    // 2. دوال الطباعة الأصلية لكارو
     window.log = function (msg, color) {
-        msgsBox.innerHTML = msg;
+        outputConsole.innerHTML = msg;
         let currentMsg = String(msg).toLowerCase();
-        // إظهار الأزرار عند النجاح
         if (currentMsg.includes("goldhen") || currentMsg.includes("loaded") || currentMsg.includes("✔")) {
-            msgsBox.style.borderColor = "#00ff88";
+            sessionStorage.setItem('monika_jb_done', 'true');
+            outputConsole.style.borderColor = "#00ff88";
             toolsBox.style.display = "flex";
             setTimeout(() => { toolsBox.style.opacity = "1"; }, 100);
         }
@@ -58,15 +58,151 @@
         msgsBox.style.borderColor = "red";
     }
 
-    // 3. المحرك الأساسي (نسخة طبق الأصل من كارو بدون أي إضافات)
-    function runExploit() {
-        if (!isPS4) {
-            msgsBox.innerHTML = "Only for PS4 with Firmware 5.05 and 6.72 and 7.00 to 14.00";
+    function startJailbreak() {
+        sessionStorage.removeItem('monika_jb_done');
+        toolsBox.style.display = "none";
+        
+        msgsBox.innerHTML = "Wait until Monika jailbreaks your Ps4 🌸 (FW " + fwVersion + ")!";
+        msgsBox.style.borderColor = "#ff99c2";
+        
+        setTimeout(() => {
+            if (fwNum == 5.05 || fwNum == 5.07) {
+                var script = document.createElement('script'); script.src = "exploit5.js"; script.onerror = onScriptError; document.head.appendChild(script);
+            } else if (fwNum === 6.72) {
+                // تعريف متغيرات كارو بالضبط كما هي
+                LoadedMSG = "GoldHen is loaded by monika, enjoy!";
+                PLfile = "payload.bin";
+                
+                var script = document.createElement('script');
+                script.src = "exploit6.js";
+                script.onload = function () {
+                    try { 
+                        jailbreak672(); 
+                    } catch (error) { 
+                        window.log("Exploit error: " + error, "red"); 
+                    }
+                };
+                script.onerror = onScriptError;
+                document.head.appendChild(script);
+            } else if (fwNum >= 7.00 && fwNum <= 9.60) {
+                var script = document.createElement('script'); script.src = "exploit7_9.js"; script.onload = function () { try { doJailBreak(); } catch (error) { window.log("Exploit error: " + error, "red"); } }; script.onerror = onScriptError; document.head.appendChild(script);
+            } else if (fwNum >= 10.00 && fwNum <= 11.02) {
+                var script = document.createElement('script'); script.src = "exploit10.js"; script.onerror = onScriptError; script.onload = function () { setTimeout(function () { doJb(); }, 1000); }; document.head.appendChild(script);
+            } else if (fwNum >= 11.50 && fwNum <= 12.02) {
+                var script = document.createElement('script'); script.src = "1150_1202.js"; script.onerror = onScriptError; document.head.appendChild(script);
+            } else if (fwNum >= 12.50 && fwNum <= 13.00) {
+                var script = document.createElement('script'); script.src = "1250_13.js"; script.onerror = onScriptError; document.head.appendChild(script);
+            } else if (fwNum >= 13.02 && fwNum <= 13.52) {
+                var script = document.createElement('script'); script.src = "1302_1352.js"; script.onerror = onScriptError; document.head.appendChild(script);
+            } else if (fwNum === 14.00) {
+                var script = document.createElement('script'); script.src = "1400.js"; script.onerror = onScriptError; document.head.appendChild(script);
+            }
+        }, 500); // تأخير بسيط لضمان تهيئة الذاكرة
+    }
+
+    // الفحص المزدوج العبقري الخاص بك لحماية الجهاز من الكيرنل بانيك
+    function checkGoldHenAndStart() {
+        if (sessionStorage.getItem('monika_jb_done') === 'true') {
+            msgsBox.innerHTML = "Welcome back! GoldHen is already loaded, silly~";
+            msgsBox.style.borderColor = "#00ff88";
+            toolsBox.style.display = "flex";
+            setTimeout(() => { toolsBox.style.opacity = "1"; }, 100);
             return;
         }
 
-        msgsBox.innerHTML = "Wait until Monika jailbreaks your Ps4 🌸 (FW " + fwVersion + ")!";
-        msgsBox.style.borderColor = "#ff99c2";
+        fetch("http://127.0.0.1:9090/", { mode: 'no-cors' })
+            .then(() => {
+                sessionStorage.setItem('monika_jb_done', 'true');
+                msgsBox.innerHTML = "Welcome back! GoldHen is already loaded, silly~";
+                msgsBox.style.borderColor = "#00ff88";
+                toolsBox.style.display = "flex";
+                setTimeout(() => { toolsBox.style.opacity = "1"; }, 100);
+            })
+            .catch(() => {
+                startJailbreak();
+            });
+    }
 
-        if (fwNum == 5.05 || fwNum == 5.07) {
-            var script = document.createElement('script'); script.src = "exploit5.js"; script.
+    if (window.applicationCache) {
+        var cacheTimeout = setTimeout(function() {
+            checkGoldHenAndStart();
+        }, 3000);
+
+        window.applicationCache.addEventListener("progress", function(e) {
+            clearTimeout(cacheTimeout);
+            if (!isPS4) return;
+            var Percent = (Math.round(e.loaded / e.total * 100));
+            msgsBox.innerHTML = "Installing Offline Cache: " + Percent + "%";
+        }, false);
+
+        window.applicationCache.oncached = function(e){ 
+            clearTimeout(cacheTimeout);
+            if (!isPS4) return;
+            msgsBox.innerHTML = "Cache Installed Successfully ✔";
+            msgsBox.style.borderColor = "#00ff88";
+            setTimeout(checkGoldHenAndStart, 1500);
+        };
+
+        window.applicationCache.onupdateready = function(e){ 
+            clearTimeout(cacheTimeout);
+            if (!isPS4) return;
+            window.applicationCache.swapCache();
+            location.reload();
+        };
+
+        window.applicationCache.onerror = function(e){ 
+            clearTimeout(cacheTimeout);
+            if (!isPS4) return;
+            checkGoldHenAndStart();
+        };
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        if (!isPS4) {
+            msgsBox.innerHTML = "Only for PS4 with Firmware 5.05 and 6.72 and 7.00 to 14.00";
+            msgsBox.style.borderColor = "red";
+            return;
+        }
+        if (window.applicationCache && window.applicationCache.status === window.applicationCache.IDLE) {
+            checkGoldHenAndStart();
+        } else if (!window.applicationCache) {
+            checkGoldHenAndStart();
+        }
+    });
+
+    function loadPayload(payloadPath, toolName) {
+        msgsBox.innerText = toolName + " is loading by monika...";
+        msgsBox.style.borderColor = "#ff99c2";
+        
+        var getReq = new XMLHttpRequest();
+        getReq.open('GET', payloadPath, true);
+        getReq.responseType = 'arraybuffer';
+        
+        getReq.onload = function() {
+            if (getReq.status === 200) {
+                var payloadData = getReq.response;
+                var sendReq = new XMLHttpRequest();
+                sendReq.open('POST', 'http://127.0.0.1:9090/', true);
+                sendReq.onload = function() {
+                    msgsBox.innerText = toolName + " is loaded by monika, enjoy !";
+                    msgsBox.style.borderColor = "#00ff88";
+                };
+                sendReq.onerror = function() {
+                    msgsBox.innerText = toolName + " failed! (Please enable BinLoader)";
+                    msgsBox.style.borderColor = "red";
+                };
+                sendReq.send(payloadData);
+            } else {
+                msgsBox.innerText = "Error: Payload file not found!";
+                msgsBox.style.borderColor = "red";
+            }
+        };
+        getReq.onerror = function() {
+            msgsBox.innerText = "Error fetching the payload!";
+            msgsBox.style.borderColor = "red";
+        };
+        getReq.send();
+    }
+    </script>
+</body>
+</html>
