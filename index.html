@@ -98,6 +98,22 @@
 </head>
 <body>
     
+    <div class="main-title">Just Monika - PS4 jailbreak Multi-FW Host</div>
+    <div id="msgs">Checking Cache Status...</div>
+
+    <div class="button-container" id="tools-box" style="display: none; opacity: 0; transition: opacity 0.8s ease;">
+        <button class="pink-pill-btn" onclick="loadPayload('payloads/disableupdates.bin', 'Disable Updates')">Disable Updates</button>
+        <button class="pink-pill-btn" onclick="loadPayload('payloads/enableupdates.bin', 'Enable Updates')">Enable Updates</button>
+        <button class="pink-pill-btn" onclick="loadPayload('payloads/ftp.bin', 'FTP Server')">FTP Server</button>
+        <button class="pink-pill-btn" onclick="loadPayload('payloads/app2usb.bin', 'App2USB')">App2USB</button>
+        <button class="pink-pill-btn" onclick="loadPayload('payloads/enablebrowser.bin', 'Enable Browser')">Enable Browser</button>
+        <button class="pink-pill-btn" onclick="loadPayload('payloads/Orbis-Toolbox-900.bin', 'Orbis Toolbox')">Orbis Toolbox</button>
+    </div>
+
+    <div class="credits">
+        Special Thanks to: @lilmonix3 (Monika) | Miftah | @Cm2k | SiSTR0
+    </div>
+
     <script>
     var uaFull = navigator.userAgent;
     var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
@@ -107,6 +123,10 @@
 
     window.addEventListener('error', function(e) { e.preventDefault(); return true; });
     window.addEventListener('unhandledrejection', function(e) { e.preventDefault(); return true; });
+
+    // ربط متغيرات كارو الوهمية بعناصر مونيكا
+    window.progress = document.getElementById('msgs');
+    window.outputConsole = document.getElementById('msgs');
 
     function showTools(welcomeMsg) {
         var msgsBox = document.getElementById('msgs');
@@ -120,18 +140,21 @@
         }
     }
 
+    // تعديل الدالة لطباعة خطوات الاختراق بدلاً من التجميد
     window.log = (msg, color) => { 
         var msgsBox = document.getElementById('msgs');
         if(msgsBox) {
-            let currentMsg = msg.toLowerCase();
-            if (currentMsg.includes("goldhen") || currentMsg.includes("done") || currentMsg.includes("succeeded") || currentMsg.includes("success")) {
+            let currentMsg = String(msg).toLowerCase();
+            if (currentMsg.includes("goldhen") || currentMsg.includes("done") || currentMsg.includes("succeeded") || currentMsg.includes("success") || currentMsg.includes("loaded")) {
                 sessionStorage.setItem('monika_jb_done', 'true');
                 showTools("GoldHen is loaded by monika, enjoy!");
+            } else {
+                msgsBox.innerHTML = msg; // هنا نطبع خطوات التفعيل
             }
         }
     };
+    window.logger = window.log; // دالة كارو الثانية
 
-    // دالة لاستدعاء سكريبتات كارو ديناميكياً
     function loadExploitScript(src, onLoadCallback) {
         var script = document.createElement('script');
         script.src = src;
@@ -155,13 +178,12 @@
         if(toolsBox) toolsBox.style.display = "none";
         
         if(msgsBox) {
-            msgsBox.innerHTML = "Wait until Monika jailbreaks your Ps4 🌸 (FW " + fwVersion + ") and injects GoldHen!";
+            msgsBox.innerHTML = "Wait until Monika jailbreaks your Ps4 (FW " + fwVersion + ") and injects GoldHen!";
             msgsBox.style.borderColor = "#ff99c2";
         }
         
         setTimeout(() => {
             try {
-                // دمج منطق كارو لتحديد الإصدار وتشغيل الثغرة المطلوبة بدقة
                 if (fwNum == 5.05 || fwNum == 5.07) {
                     loadExploitScript("exploit5.js");
                 } else if (fwNum === 6.72) {
@@ -192,13 +214,11 @@
         }, 1200);
     }
 
-    // الفحص المزدوج يمنع السكربتات من العمل إذا كان الجولدن يعمل مسبقاً
     function checkGoldHenAndStart() {
         if (sessionStorage.getItem('monika_jb_done') === 'true') {
             showTools("Welcome back! GoldHen is already loaded, silly~ Need a payload, or did you come to spend time with me?");
             return;
         }
-
         fetch("http://127.0.0.1:9090/", { mode: 'no-cors' })
             .then(() => {
                 sessionStorage.setItem('monika_jb_done', 'true');
@@ -249,86 +269,58 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         var msgsBox = document.getElementById('msgs');
-        
         if (!isPS4) {
             msgsBox.innerHTML = "Only for PS4 with Firmware 5.05 and 6.72 and 7.00 to 14.00";
             msgsBox.style.borderColor = "red";
             return;
         }
-
         if (window.applicationCache && window.applicationCache.status === window.applicationCache.IDLE) {
             checkGoldHenAndStart();
         } else if (!window.applicationCache) {
             checkGoldHenAndStart();
         }
     });
-    </script>
 
-    <div class="main-title">Just Monika - PS4 jailbreak Multi-FW Host</div>
-
-    <div id="msgs">Checking Cache Status...</div>
-
-    <div class="button-container" id="tools-box" style="display: none; opacity: 0; transition: opacity 0.8s ease;">
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/disableupdates.bin', 'Disable Updates')">Disable Updates</button>
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/enableupdates.bin', 'Enable Updates')">Enable Updates</button>
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/ftp.bin', 'FTP Server')">FTP Server</button>
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/app2usb.bin', 'App2USB')">App2USB</button>
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/enablebrowser.bin', 'Enable Browser')">Enable Browser</button>
-        <button class="pink-pill-btn" onclick="loadPayload('payloads/Orbis-Toolbox-900.bin', 'Orbis Toolbox')">Orbis Toolbox</button>
-    </div>
-
-    <div class="credits">
-        Special Thanks to: @lilmonix3 (Monika) | Miftah | @Cm2k | SiSTR0
-    </div>
-    
-    <script>
-        function loadPayload(payloadPath, toolName) {
-            const msgsBox = document.getElementById('msgs');
-            msgsBox.innerText = toolName + " is loading by monika...";
-            msgsBox.style.borderColor = "#ff99c2";
-            
-            // XHR الطريقة النظيفة للـ Payloads
-            var getReq = new XMLHttpRequest();
-            getReq.open('GET', payloadPath, true);
-            getReq.responseType = 'arraybuffer';
-            
-            getReq.onload = function() {
-                if (getReq.status === 200) {
-                    var payloadData = getReq.response;
-                    
-                    var sendReq = new XMLHttpRequest();
-                    sendReq.open('POST', 'http://127.0.0.1:9090/', true);
-                    
-                    sendReq.onload = function() {
-                        if (toolName === "Disable Updates") {
-                            msgsBox.innerText = toolName + " is loaded by monika, enjoy using internet safely !";
-                        } else if (toolName === "Enable Updates") {
-                            msgsBox.innerText = toolName + " is loaded by monika";
-                        } else {
-                            msgsBox.innerText = toolName + " is loaded by monika, enjoy !";
-                        }
-                        msgsBox.style.borderColor = "#00ff88";
-                    };
-                    
-                    sendReq.onerror = function() {
-                        msgsBox.innerText = toolName + " failed! (Please enable BinLoader in GoldHEN settings)";
-                        msgsBox.style.borderColor = "red";
-                    };
-                    
-                    sendReq.send(payloadData);
-                } else {
-                    msgsBox.innerText = "Error: Payload file not found!";
+    function loadPayload(payloadPath, toolName) {
+        const msgsBox = document.getElementById('msgs');
+        msgsBox.innerText = toolName + " is loading by monika...";
+        msgsBox.style.borderColor = "#ff99c2";
+        
+        var getReq = new XMLHttpRequest();
+        getReq.open('GET', payloadPath, true);
+        getReq.responseType = 'arraybuffer';
+        
+        getReq.onload = function() {
+            if (getReq.status === 200) {
+                var payloadData = getReq.response;
+                var sendReq = new XMLHttpRequest();
+                sendReq.open('POST', 'http://127.0.0.1:9090/', true);
+                sendReq.onload = function() {
+                    if (toolName === "Disable Updates") {
+                        msgsBox.innerText = toolName + " is loaded by monika, enjoy using internet safely !";
+                    } else if (toolName === "Enable Updates") {
+                        msgsBox.innerText = toolName + " is loaded by monika";
+                    } else {
+                        msgsBox.innerText = toolName + " is loaded by monika, enjoy !";
+                    }
+                    msgsBox.style.borderColor = "#00ff88";
+                };
+                sendReq.onerror = function() {
+                    msgsBox.innerText = toolName + " failed! (Please enable BinLoader in GoldHEN settings)";
                     msgsBox.style.borderColor = "red";
-                }
-            };
-            
-            getReq.onerror = function() {
-                msgsBox.innerText = "Error fetching the payload!";
+                };
+                sendReq.send(payloadData);
+            } else {
+                msgsBox.innerText = "Error: Payload file not found!";
                 msgsBox.style.borderColor = "red";
-            };
-            
-            getReq.send();
-        }
+            }
+        };
+        getReq.onerror = function() {
+            msgsBox.innerText = "Error fetching the payload!";
+            msgsBox.style.borderColor = "red";
+        };
+        getReq.send();
+    }
     </script>
 </body>
 </html>
